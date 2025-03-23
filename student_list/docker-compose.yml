@@ -1,0 +1,27 @@
+version: '3'
+services:
+  supmit_api :
+    image: supmit:latest  
+    ports:
+      - "5000:5000"  
+    volumes:
+      - ./simple_api/student_age.json:/data/student_age.json  
+    networks:
+      - student-net  
+
+  website:
+    image: php:apache  
+    ports:
+      - "80:80"  
+    environment:
+      - USERNAME=root  
+      - PASSWORD=root  
+    volumes:
+      - ./website:/var/www/html  
+    depends_on:
+      - supmit_api  
+    networks:
+      - student-net
+
+networks:
+  student-net:  
